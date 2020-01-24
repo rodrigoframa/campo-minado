@@ -21,12 +21,24 @@ public class Tabuleiro {
 		sortearMinas();
 	}
 
-    private void associarVizinhos() {
+	private void gerarCampos() {
+		for (int linha = 0; linha < linhas; linha++) {
+			for (int coluna = 0; coluna < colunas; coluna++) {
+				campos.add(new Campo(linha, coluna));
+			}
+		}
+	}
+
+	private void associarVizinhos() {
+		for(Campo c1: campos) {
+			for(Campo c2: campos) {
+				c1.adicionarVizinho(c2);
+			}
+		}
+	}
+
+	private void sortearMinas() {
     }
 
-    private void sortearMinas() {
-    }
 
-    private void gerarCampos() {
-    }
 }
