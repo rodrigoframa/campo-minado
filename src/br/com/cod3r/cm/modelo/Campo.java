@@ -1,7 +1,5 @@
 package br.com.cod3r.cm.modelo;
 
-import br.com.cod3r.cm.excecao.ExplosaoException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,13 +53,12 @@ public class Campo {
             aberto = true;
 
             if (minado) {
-                throw new ExplosaoException();
+                // TODO IMPLEMENTAR NOVA FORMA
             }
 
             if (vizinhancaSegura()) {
-                vizinhos.forEach(v -> v.abrir());
+                vizinhos.forEach(Campo::abrir);
             }
-
             return true;
         } else {
             return false;
@@ -118,20 +115,6 @@ public class Campo {
         aberto = false;
         minado = false;
         marcado = false;
-    }
-
-    public String toString() {
-        if (marcado) {
-            return "x";
-        } else if (aberto && minado) {
-            return "*";
-        } else if (aberto && minasNaVizinhanca() > 0) {
-            return Long.toString(minasNaVizinhanca());
-        } else if (aberto) {
-            return " ";
-        } else {
-            return "?";
-        }
     }
 
 }
