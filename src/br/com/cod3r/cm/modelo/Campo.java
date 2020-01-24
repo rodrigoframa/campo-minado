@@ -40,4 +40,15 @@ public class Campo {
         }
     }
 
+    void alternarMarcacao() {
+        if(!aberto) {
+            marcado = !marcado;
+        }
+    }
+
+    public boolean isMarcado() {
+        return marcado;
+    }
+
+
 }
