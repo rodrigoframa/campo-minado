@@ -76,4 +76,16 @@ public class Campo {
     }
 
 
+    void minar() {
+	    minado = true;
+    }
+
+    public boolean isAberto() {
+        return aberto;
+    }
+
+    public boolean isFechado() {
+        return !isAberto();
+    }
+
 }
