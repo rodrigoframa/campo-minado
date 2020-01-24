@@ -88,5 +88,24 @@ public class Tabuleiro {
 		return sb.toString();
 	}
 
+	public void abrir(int linha, int coluna) {
+		try {
+			campos.parallelStream()
+					.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+					.findFirst()
+					.ifPresent(Campo::abrir);
+		} catch (ExplosaoException e) {
+			campos.forEach(c -> c.setAberto(true));
+			throw e;
+		}
+	}
+
+	public void alternarMarcacao(int linha, int coluna) {
+		campos.parallelStream()
+				.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+				.findFirst()
+				.ifPresent(Campo::alternarMarcacao);
+	}
+
 
 }
