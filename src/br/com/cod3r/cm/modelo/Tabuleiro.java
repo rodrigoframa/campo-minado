@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import br.com.cod3r.cm.excecao.ExplosaoException;
+
 public class Tabuleiro {
 
 	private int linhas;
@@ -49,5 +51,13 @@ public class Tabuleiro {
 		} while(minasArmadas < minas);
 	}
 
+	public boolean objetivoAlcancado() {
+		return campos.stream().allMatch(Campo::objetivoAlcancado);
+	}
+
+	public void reiniciar() {
+		campos.stream().forEach(Campo::reiniciar);
+		sortearMinas();
+	}
 
 }
