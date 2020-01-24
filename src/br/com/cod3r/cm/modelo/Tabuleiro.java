@@ -8,104 +8,104 @@ import br.com.cod3r.cm.excecao.ExplosaoException;
 
 public class Tabuleiro {
 
-	private int linhas;
-	private int colunas;
-	private int minas;
-	
-	private final List<Campo> campos = new ArrayList<>();
+    private int linhas;
+    private int colunas;
+    private int minas;
 
-	public Tabuleiro(int linhas, int colunas, int minas) {
-		this.linhas = linhas;
-		this.colunas = colunas;
-		this.minas = minas;
-		
-		gerarCampos();
-		associarVizinhos();
-		sortearMinas();
-	}
+    private final List<Campo> campos = new ArrayList<>();
 
-	private void gerarCampos() {
-		for (int linha = 0; linha < linhas; linha++) {
-			for (int coluna = 0; coluna < colunas; coluna++) {
-				campos.add(new Campo(linha, coluna));
-			}
-		}
-	}
+    public Tabuleiro(int linhas, int colunas, int minas) {
+        this.linhas = linhas;
+        this.colunas = colunas;
+        this.minas = minas;
 
-	private void associarVizinhos() {
-		for(Campo c1: campos) {
-			for(Campo c2: campos) {
-				c1.adicionarVizinho(c2);
-			}
-		}
-	}
+        gerarCampos();
+        associarVizinhos();
+        sortearMinas();
+    }
 
-	private void sortearMinas() {
-		long minasArmadas = 0;
-		Predicate<Campo> minado = Campo::isMinado;
+    private void gerarCampos() {
+        for (int linha = 0; linha < linhas; linha++) {
+            for (int coluna = 0; coluna < colunas; coluna++) {
+                campos.add(new Campo(linha, coluna));
+            }
+        }
+    }
 
-		do {
-			int aleatorio = (int) (Math.random() * campos.size());
-			campos.get(aleatorio).minar();
-			minasArmadas = campos.stream().filter(minado).count();
-		} while(minasArmadas < minas);
-	}
+    private void associarVizinhos() {
+        for (Campo c1 : campos) {
+            for (Campo c2 : campos) {
+                c1.adicionarVizinho(c2);
+            }
+        }
+    }
 
-	public boolean objetivoAlcancado() {
-		return campos.stream().allMatch(Campo::objetivoAlcancado);
-	}
+    private void sortearMinas() {
+        long minasArmadas = 0;
+        Predicate<Campo> minado = Campo::isMinado;
 
-	public void reiniciar() {
-		campos.stream().forEach(Campo::reiniciar);
-		sortearMinas();
-	}
+        do {
+            int aleatorio = (int) (Math.random() * campos.size());
+            campos.get(aleatorio).minar();
+            minasArmadas = campos.stream().filter(minado).count();
+        } while (minasArmadas < minas);
+    }
 
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    public boolean objetivoAlcancado() {
+        return campos.stream().allMatch(Campo::objetivoAlcancado);
+    }
 
-		sb.append("  ");
-		for (int c = 0; c < colunas; c++) {
-			sb.append(" ");
-			sb.append(c);
-			sb.append(" ");
-		}
+    public void reiniciar() {
+        campos.stream().forEach(Campo::reiniciar);
+        sortearMinas();
+    }
 
-		sb.append("\n");
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
 
-		int i = 0;
-		for (int l = 0; l < linhas; l++) {
-			sb.append(l);
-			sb.append(" ");
-			for (int c = 0; c < colunas; c++) {
-				sb.append(" ");
-				sb.append(campos.get(i));
-				sb.append(" ");
-				i++;
-			}
-			sb.append("\n");
-		}
+        sb.append("  ");
+        for (int c = 0; c < colunas; c++) {
+            sb.append(" ");
+            sb.append(c);
+            sb.append(" ");
+        }
 
-		return sb.toString();
-	}
+        sb.append("\n");
 
-	public void abrir(int linha, int coluna) {
-		try {
-			campos.parallelStream()
-					.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
-					.findFirst()
-					.ifPresent(Campo::abrir);
-		} catch (ExplosaoException e) {
-			campos.forEach(c -> c.setAberto(true));
-			throw e;
-		}
-	}
+        int i = 0;
+        for (int l = 0; l < linhas; l++) {
+            sb.append(l);
+            sb.append(" ");
+            for (int c = 0; c < colunas; c++) {
+                sb.append(" ");
+                sb.append(campos.get(i));
+                sb.append(" ");
+                i++;
+            }
+            sb.append("\n");
+        }
 
-	public void alternarMarcacao(int linha, int coluna) {
-		campos.parallelStream()
-				.filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
-				.findFirst()
-				.ifPresent(Campo::alternarMarcacao);
-	}
+        return sb.toString();
+    }
+
+    public void abrir(int linha, int coluna) {
+        try {
+            campos.parallelStream()
+                    .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+                    .findFirst()
+                    .ifPresent(Campo::abrir);
+        } catch (ExplosaoException e) {
+            campos.forEach(c -> c.setAberto(true));
+            throw e;
+        }
+    }
+
+    public void alternarMarcacao(int linha, int coluna) {
+        campos.parallelStream()
+                .filter(c -> c.getLinha() == linha && c.getColuna() == coluna)
+                .findFirst()
+                .ifPresent(Campo::alternarMarcacao);
+    }
 
 
 }

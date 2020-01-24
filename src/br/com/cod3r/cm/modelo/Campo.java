@@ -7,19 +7,19 @@ import java.util.List;
 
 public class Campo {
 
-	private final int linha;
-	private final int coluna;
+    private final int linha;
+    private final int coluna;
 
     private boolean aberto = false;
-	private boolean minado = false;
-	private boolean marcado = false;
+    private boolean minado = false;
+    private boolean marcado = false;
 
-	private List<Campo> vizinhos = new ArrayList<>();
+    private List<Campo> vizinhos = new ArrayList<>();
 
-	Campo(int linha, int coluna) {
-		this.linha = linha;
-		this.coluna = coluna;
-	}
+    Campo(int linha, int coluna) {
+        this.linha = linha;
+        this.coluna = coluna;
+    }
 
 
     boolean adicionarVizinho(Campo vizinho) {
@@ -31,10 +31,10 @@ public class Campo {
         int deltaColuna = Math.abs(coluna - vizinho.coluna);
         int detalGeral = deltaColuna + deltaLinha;
 
-        if(detalGeral == 1 && !diagonal) {
+        if (detalGeral == 1 && !diagonal) {
             vizinhos.add(vizinho);
             return true;
-        } else if(detalGeral == 2 && diagonal) {
+        } else if (detalGeral == 2 && diagonal) {
             vizinhos.add(vizinho);
             return true;
         } else {
@@ -43,7 +43,7 @@ public class Campo {
     }
 
     void alternarMarcacao() {
-        if(!aberto) {
+        if (!aberto) {
             marcado = !marcado;
         }
     }
@@ -51,14 +51,14 @@ public class Campo {
 
     boolean abrir() {
 
-        if(!aberto && !marcado) {
+        if (!aberto && !marcado) {
             aberto = true;
 
-            if(minado) {
+            if (minado) {
                 throw new ExplosaoException();
             }
 
-            if(vizinhancaSegura()) {
+            if (vizinhancaSegura()) {
                 vizinhos.forEach(v -> v.abrir());
             }
 
@@ -77,11 +77,11 @@ public class Campo {
     }
 
     void minar() {
-	    minado = true;
+        minado = true;
     }
 
     public boolean isMinado() {
-	    return minado;
+        return minado;
     }
 
     public boolean isMarcado() {
@@ -121,13 +121,13 @@ public class Campo {
     }
 
     public String toString() {
-        if(marcado) {
+        if (marcado) {
             return "x";
-        } else if(aberto && minado) {
+        } else if (aberto && minado) {
             return "*";
-        } else if(aberto && minasNaVizinhanca() > 0) {
+        } else if (aberto && minasNaVizinhanca() > 0) {
             return Long.toString(minasNaVizinhanca());
-        } else if(aberto) {
+        } else if (aberto) {
             return " ";
         } else {
             return "?";
