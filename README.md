@@ -1,4 +1,4 @@
-# campo-minado
+# Campo Minado
 Projeto de implementacao de jogo campo minado na linguagem de Programacao Java pelo curso da Cod3r.
 
 Primeira etapa foi implementado a execucao do jogo por entrada no console, em forma sequencial de navegacao de entrada e resposta da acao.
